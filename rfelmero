@@ -1,0 +1,67 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args){
+//        ArrayList <Point> list = new ArrayList<>();
+//        for(int i=0; i<10; i++){
+//            list.add(new Point(i, i));
+//        }
+//        System.out.println("Origotol valo tavolsag:");
+//        for(Point p: list){
+//            System.out.println(p.toString());
+//            System.out.printf("origotol valo tavlosag: %.2f\n", p.Distance());
+//
+//        }
+        ArrayList <Rectangle> list=new ArrayList<>();
+        Random rnd = new Random();
+        for(int i=1; i<=10; i++){
+            int width=rnd.nextInt(20)+1;
+            int length=rnd.nextInt(30)+1;
+            list.add(new Rectangle(width, length));
+        }
+
+        double maxA=list.get(0).area();
+        Rectangle max=list.get(0);
+        for(Rectangle r: list){
+            System.out.println(r);
+            if(maxA<r.area()){
+                maxA=r.area();
+                max=r;
+            }
+        }
+        try {
+            PrintStream ps = new PrintStream("rectangle.csv");
+            for(Rectangle r: list){
+                ps.println(r);
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Legnagyobb teglalap "+ max + " es ennek terulete " + maxA);
+        System.out.println("Beolvasas filebol");
+        ArrayList <Rectangle> list2= new ArrayList<>();
+        try {
+            Scanner scanner=new Scanner(new File("input.csv"));
+            while(scanner.hasNextLine()){
+                String line=scanner.nextLine();
+                System.out.println(line);
+                String[] items=line.split(" ");
+                int w=Integer.parseInt(items[0]);
+                int l=Integer.parseInt(items[1]);
+                list2.add(new Rectangle(w, l));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        for(Rectangle r: list2){
+            System.out.println(r);
+        }
+    }
+}
+
+
